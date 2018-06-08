@@ -1523,6 +1523,16 @@ Interpreter.prototype.initSymbol = function initSymbol (scope) {
     this.setProperty(symbolWrapper, symbolName, Symbol[symbolName]);
   }
 
+  const valueOf = function () {
+    return this;
+  };
+  const toString = function () {
+    return String(this);
+  };
+
+  this.setNativeFunctionPrototype(symbolWrapper, `valueOf`, valueOf);
+  this.setNativeFunctionPrototype(symbolWrapper, `toString`, toString);
+
   this.SYMBOL = symbolWrapper;
 };
 /* eslint-disable */
