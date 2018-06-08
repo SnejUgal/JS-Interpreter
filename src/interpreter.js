@@ -1988,8 +1988,10 @@ Interpreter.prototype.getPrototype = function(value) {
  * @param {Interpreter.Value} name Name of property.
  * @return {Interpreter.Value} Property value (may be undefined).
  */
-Interpreter.prototype.getProperty = function(obj, name) {
-  name = String(name);
+Interpreter.prototype.getProperty = function (obj, name) {
+  if (typeof name !== `string` && typeof name !== `symbol`) {
+    name = String(name);
+  }
   if (obj === undefined || obj === null) {
     this.throwException(this.TYPE_ERROR,
                         "Cannot read property '" + name + "' of " + obj);
@@ -1999,7 +2001,7 @@ Interpreter.prototype.getProperty = function(obj, name) {
     if (this.isa(obj, this.STRING)) {
       return String(obj).length;
     }
-  } else if (name.charCodeAt(0) < 0x40) {
+  } else if (!Number.isNaN(Number(String(name)))) {
     // Might have numbers in there?
     // Special cases for string array indexing
     if (this.isa(obj, this.STRING)) {
@@ -2063,8 +2065,11 @@ Interpreter.prototype.hasProperty = function(obj, name) {
  * @return {!Interpreter.Object|undefined} Returns a setter function if one
  *     needs to be called, otherwise undefined.
  */
-Interpreter.prototype.setProperty = function(obj, name, value, opt_descriptor) {
-  name = String(name);
+Interpreter.prototype.setProperty = function (obj, name, value, opt_descriptor) {
+  if (typeof name !== `string` && typeof name !== `symbol`) {
+    name = String(name);
+  }
+
   if (obj === undefined || obj === null) {
     this.throwException(this.TYPE_ERROR,
                         "Cannot set property '" + name + "' of " + obj);
