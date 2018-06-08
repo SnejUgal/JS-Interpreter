@@ -1529,9 +1529,22 @@ Interpreter.prototype.initSymbol = function initSymbol (scope) {
   const toString = function () {
     return String(this);
   };
+  const toPrimitive = valueOf;
 
   this.setNativeFunctionPrototype(symbolWrapper, `valueOf`, valueOf);
   this.setNativeFunctionPrototype(symbolWrapper, `toString`, toString);
+  this.setNativeFunctionPrototype(
+    symbolWrapper,
+    Symbol.toPrimitive,
+    toPrimitive,
+  );
+
+  this.setProperty(
+    this.getProperty(symbolWrapper, `prototype`),
+    Symbol.toStringTag,
+    `Symbol`,
+    Interpreter.READONLY_NONENUMERABLE_DESCRIPTOR,
+  );
 
   this.SYMBOL = symbolWrapper;
 };
