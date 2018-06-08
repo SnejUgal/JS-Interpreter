@@ -2,8 +2,6 @@
  * @license
  * JavaScript Interpreter
  *
- * Copyright 2013 Google Inc.
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,11 +15,7 @@
  * limitations under the License.
  */
 
-/**
- * @fileoverview Interpreting JavaScript in JavaScript.
- * @author fraser@google.com (Neil Fraser)
- */
-'use strict';
+import * as acorn from "acorn";
 
 /**
  * Create a new interpreter.
@@ -3552,10 +3546,6 @@ Interpreter.prototype['stepWithStatement'] = function(stack, state, node) {
 Interpreter.prototype['stepWhileStatement'] =
     Interpreter.prototype['stepDoWhileStatement'];
 
-// Preserve top-level API functions from being pruned/renamed by JS compilers.
-// Add others as needed.
-// The global object ('window' in a browser, 'global' in node.js) is 'this'.
-this['Interpreter'] = Interpreter;
 Interpreter.prototype['step'] = Interpreter.prototype.step;
 Interpreter.prototype['run'] = Interpreter.prototype.run;
 Interpreter.prototype['appendCode'] = Interpreter.prototype.appendCode;
@@ -3572,3 +3562,5 @@ Interpreter.prototype['nativeToPseudo'] = Interpreter.prototype.nativeToPseudo;
 Interpreter.prototype['pseudoToNative'] = Interpreter.prototype.pseudoToNative;
 // Obsolete.  Do not use.
 Interpreter.prototype['createPrimitive'] = function(x) {return x;};
+
+export default Interpreter;

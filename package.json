@@ -1,0 +1,37 @@
+{
+  "name": "es-interpreter",
+  "version": "0.1.0",
+  "description": "An EcmaScript interpreter",
+  "main": "dist/interpreter.js",
+  "scripts": {
+    "build": "npx babel ./src/ -d ./dist/ --source-maps",
+    "watch": "npx babel ./src/ -d ./dist/ --source-maps -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SnejUgal/es-interpreter.git"
+  },
+  "keywords": [
+    "js",
+    "es",
+    "interpreter"
+  ],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/SnejUgal/es-interpreter/issues"
+  },
+  "homepage": "https://github.com/SnejUgal/es-interpreter#readme",
+  "dependencies": {
+    "acorn": "^5.6.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-do-expressions": "^6.22.0",
+    "babel-plugin-transform-function-bind": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^4.19.1"
+  }
+}
