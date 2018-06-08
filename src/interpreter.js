@@ -1507,7 +1507,7 @@ Interpreter.prototype.initSymbol = function initSymbol (scope) {
     } else {
       return Symbol(description);
     }
-  });
+  }, true);
   const symbolForWrapper = this.createNativeFunction(Symbol.for);
   const symbolKeyForWrapper = this.createNativeFunction(Symbol.keyFor);
 
@@ -1522,6 +1522,8 @@ Interpreter.prototype.initSymbol = function initSymbol (scope) {
   for (const symbolName of symbolNames) {
     this.setProperty(symbolWrapper, symbolName, Symbol[symbolName]);
   }
+
+  this.SYMBOL = symbolWrapper;
 };
 /* eslint-disable */
 
@@ -1961,6 +1963,8 @@ Interpreter.prototype.getPrototype = function(value) {
       return this.BOOLEAN.properties['prototype'];
     case 'string':
       return this.STRING.properties['prototype'];
+    case 'symbol':
+      return this.SYMBOL.properties['prototype'];
   }
   if (value) {
     return value.proto;
