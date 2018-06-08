@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 
+// Until we format the whole file, we only turn ESLint on for pieces of
+// code we wrote
+/* eslint-disable */
+
 import * as acorn from "acorn";
 
 /**
@@ -220,11 +224,8 @@ Interpreter.prototype.initGlobalScope = function(scope) {
                    Interpreter.READONLY_DESCRIPTOR);
   this.setProperty(scope, 'undefined', undefined,
                    Interpreter.READONLY_DESCRIPTOR);
-  this.setProperty(scope, 'window', scope,
-                   Interpreter.READONLY_DESCRIPTOR);
   this.setProperty(scope, 'this', scope,
                    Interpreter.READONLY_DESCRIPTOR);
-  this.setProperty(scope, 'self', scope); // Editable.
 
   // Create the objects which will become Object.prototype and
   // Function.prototype, which are needed to bootstrap everything else.
