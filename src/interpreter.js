@@ -248,6 +248,7 @@ Interpreter.prototype.initGlobalScope = function(scope) {
   this.initError(scope);
   this.initMath(scope);
   this.initJSON(scope);
+  this.initSymbol(scope);
 
   // Initialize global functions.
   var thisInterpreter = this;
@@ -1497,6 +1498,32 @@ Interpreter.prototype.initJSON = function(scope) {
   this.setProperty(myJSON, 'stringify',
       this.createNativeFunction(wrapper, false));
 };
+
+/* eslint-enable */
+Interpreter.prototype.initSymbol = function initSymbol (scope) {
+  const symbolWrapper = this.createNativeFunction((description) => {
+    if (this.calledWithNew()) {
+      this.throwException(this.TYPE_ERROR, `Symbol is not a constructor`);
+    } else {
+      return Symbol(description);
+    }
+  });
+  const symbolForWrapper = this.createNativeFunction(Symbol.for);
+  const symbolKeyForWrapper = this.createNativeFunction(Symbol.keyFor);
+
+  this.setProperty(scope, `Symbol`, symbolWrapper);
+  this.setProperty(symbolWrapper, `for`, symbolForWrapper);
+  this.setProperty(symbolWrapper, `keyFor`, symbolKeyForWrapper);
+
+  const symbolNames = Object
+    .getOwnPropertyNames(Symbol)
+    .filter((property) => typeof Symbol[property] === `symbol`);
+
+  for (const symbolName of symbolNames) {
+    this.setProperty(symbolWrapper, symbolName, Symbol[symbolName]);
+  }
+};
+/* eslint-disable */
 
 /**
  * Is an object of a certain class?
