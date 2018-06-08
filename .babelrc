@@ -1,0 +1,21 @@
+{
+  "comments": false,
+  "minified": false,
+  "sourceMaps": true,
+  "plugins": [
+    "transform-object-rest-spread",
+    "transform-do-expressions",
+    "transform-class-properties",
+    "transform-function-bind"
+  ],
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": "6.0.0"
+        }
+      }
+    ]
+  ]
+}
