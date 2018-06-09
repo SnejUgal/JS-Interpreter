@@ -779,6 +779,23 @@ Interpreter.prototype.initArray = function(scope) {
     this.ARRAY,
     Interpreter.READONLY_DESCRIPTOR,
   );
+
+  const copyWithinWrapper = function copyWithinWrapper (...args) {
+    const array = this.properties::Array.prototype.copyWithin(...args);
+
+    return thisInterpreter.arrayNativeToPseudo(array);
+  };
+
+  this.setNativeFunctionPrototype(this.ARRAY, `copyWithin`, copyWithinWrapper);
+
+  const entriesWrapper = function entriesWrapper (...args) {
+    const properties = thisInterpreter.pseudoToNative(this);
+    const iterator = properties::Array.prototype.entries(...args);
+
+    return thisInterpreter.nativeIteratorToPseudo(iterator);
+  };
+
+  this.setNativeFunctionPrototype(this.ARRAY, `entries`, entriesWrapper);
   /* eslint-disable */
 
   // Instance methods on Array.
@@ -3611,6 +3628,18 @@ Interpreter.prototype['stepWithStatement'] = function(stack, state, node) {
     stack.pop();
   }
 };
+
+/* eslint-enable */
+Interpreter.prototype.nativeIteratorToPseudo = function (iterator) {
+  const next = () => iterator.next();
+
+  const pseudoIterator = this.nativeToPseudo({
+    next,
+  });
+
+  return pseudoIterator;
+};
+/* eslint-disable */
 
 Interpreter.prototype['stepWhileStatement'] =
     Interpreter.prototype['stepDoWhileStatement'];
