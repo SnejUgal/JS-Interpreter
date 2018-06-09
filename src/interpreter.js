@@ -772,6 +772,15 @@ Interpreter.prototype.initArray = function(scope) {
                    this.createNativeFunction(wrapper, false),
                    Interpreter.NONENUMERABLE_DESCRIPTOR);
 
+  /* eslint-enable */
+  this.setProperty(
+    this.ARRAY,
+    Symbol.species,
+    this.ARRAY,
+    Interpreter.READONLY_DESCRIPTOR,
+  );
+  /* eslint-disable */
+
   // Instance methods on Array.
   wrapper = function() {
     return Array.prototype.pop.call(this.properties);
