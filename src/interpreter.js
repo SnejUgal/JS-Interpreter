@@ -780,7 +780,7 @@ Interpreter.prototype.initArray = function(scope) {
     Interpreter.READONLY_DESCRIPTOR,
   );
 
-  const copyWithinWrapper = function copyWithinWrapper (...args) {
+  const copyWithinWrapper = function (...args) {
     const array = this.properties::Array.prototype.copyWithin(...args);
 
     return thisInterpreter.arrayNativeToPseudo(array);
@@ -788,7 +788,7 @@ Interpreter.prototype.initArray = function(scope) {
 
   this.setNativeFunctionPrototype(this.ARRAY, `copyWithin`, copyWithinWrapper);
 
-  const entriesWrapper = function entriesWrapper (...args) {
+  const entriesWrapper = function (...args) {
     const properties = thisInterpreter.pseudoToNative(this);
     const iterator = properties::Array.prototype.entries(...args);
 
@@ -796,6 +796,37 @@ Interpreter.prototype.initArray = function(scope) {
   };
 
   this.setNativeFunctionPrototype(this.ARRAY, `entries`, entriesWrapper);
+
+  const fillWrapper = function (...args) {
+    const array = this.properties::Array.prototype.fill(...args);
+
+    return thisInterpreter.arrayNativeToPseudo(array);
+  };
+
+  this.setNativeFunctionPrototype(this.ARRAY, `fill`, fillWrapper);
+
+  /**
+   * @todo Array#find, Array#findIndex
+   */
+
+  const keysWrapper = function (...args) {
+    const properties = thisInterpreter.pseudoToNative(this);
+    const iterator = properties::Array.prototype.keys(...args);
+
+    return thisInterpreter.nativeIteratorToPseudo(iterator);
+  };
+
+  this.setNativeFunctionPrototype(this.ARRAY, `keys`, keysWrapper);
+
+  const valuesWrapper = function (...args) {
+    const properties = thisInterpreter.pseudoToNative(this);
+    const iterator = properties::Array.prototype.values(...args);
+
+    return thisInterpreter.nativeIteratorToPseudo(iterator);
+  };
+
+  this.setNativeFunctionPrototype(this.ARRAY, `values`, valuesWrapper);
+  this.setNativeFunctionPrototype(this.ARRAY, Symbol.iterator, valuesWrapper);
   /* eslint-disable */
 
   // Instance methods on Array.

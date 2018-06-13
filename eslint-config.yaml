@@ -83,9 +83,6 @@ rules:
     - warn
     - never
   func-call-spacing: warn
-  func-names:
-    - warn
-    - as-needed
   func-style:
     - warn
     - expression
